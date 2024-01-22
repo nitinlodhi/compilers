@@ -1,0 +1,17 @@
+var a = 0;
+fun factorialIterative(b) {
+    var result = 1;
+    for (var i = 1; i <= b; i = i + 1)
+        result = result * i;
+    return result; 
+}
+
+fun factorialRecursive(b) {
+    // if (b <= 0)
+    //    return 1;
+    var i = factorialRecursive(b - 1);
+    return b * i;
+}
+
+print factorialIterative(5);
+// print factorialRecursive(5);

@@ -1,0 +1,9 @@
+var a = 2*10;
+var b = 89/2;
+print a;
+print b;
+print a + b;
+var firstName = "Nitin";
+var lastName = "Lodhi";
+print firstName + " " + lastName;
+

@@ -1,0 +1,15 @@
+var a;
+a = 10;
+print a;
+print "------------";
+{
+    var b = 30;
+    var a = 20;
+    print a;
+    print b;
+    print a + b;
+}
+
+print "-------------";
+print a;
+// print b;
