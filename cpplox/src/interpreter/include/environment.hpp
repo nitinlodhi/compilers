@@ -12,18 +12,18 @@ namespace cpplox {
     public:
         Environment() {
             enclosing = nullptr;
-            std::cout << this << " : " << __func__ << std::endl;
+            // std::cout << this << " : " << __func__ << std::endl;
         }
 
         Environment(Environment* _env) {
             enclosing = _env;
-            std::cout << this << " : " << __func__ <<  " enclosing: " << _env << std::endl;
+            // std::cout << this << " : " << __func__ << " enclosing: " << _env << std::endl;
         }
 
         ~Environment();
 
         void define(string name, any value) {
-            std::cout << this << " : Store => " << name  << std::endl;
+            // std::cout << this << " : Store => " << name << std::endl;
             values.insert({name, value});
         }
 
@@ -50,9 +50,10 @@ namespace cpplox {
             throw "Undefined variable.";
         }
 
+        Environment* enclosing = nullptr;
+
     private:
         unordered_map<string, any> values;
-        Environment* enclosing = nullptr;
     };
 
 }

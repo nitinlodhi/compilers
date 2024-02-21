@@ -68,14 +68,16 @@ public:
 
 class FunctionStmt : public Stmt {
 public:
-	FunctionStmt(Token* name, vector<Token*> params, BlockStmt* body) {
+	FunctionStmt(Token* name, vector<Token*> params, vector<Stmt*> body) {
 		this->name = name;
 		this->params = params;
 		this->body = body;
 	}
 
 	~FunctionStmt() {
-		if (body) delete body;
+		for (auto _x : body) {
+			 delete _x;
+		}
 	}
 
 	any accept(Visitor* visitor) {
@@ -84,7 +86,7 @@ public:
 
 	Token* name;
 	vector<Token*> params;
-	BlockStmt* body;
+	vector<Stmt*> body;
 };
 
 class IfStmt : public Stmt {

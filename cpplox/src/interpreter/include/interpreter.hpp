@@ -31,7 +31,7 @@ namespace cpplox {
         any visitReturnStmt(ReturnStmt* stmt) override;
 
         any executeBlock(vector<Stmt*> stmts, Environment* enclosing);
-        Environment* getEnv() { return environment; };
+        Environment* environment;
 
     private:
         any evaluate(Expr* expr);
@@ -39,8 +39,7 @@ namespace cpplox {
         bool isTruthy(any val);
         bool isEqual(any a, any b);
         string stringify(const any& value);
-
-        Environment* environment;
+        
     };
 
 }

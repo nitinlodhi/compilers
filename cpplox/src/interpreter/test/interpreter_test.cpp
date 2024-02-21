@@ -152,3 +152,23 @@ TEST_F(InterpreterTest, FunctionCallTest) {
     auto r = Interpreter().interpret(stmts);
     EXPECT_EQ(any_cast<int>(r), 7);
 }
+
+TEST_F(InterpreterTest, RecursiveCallTest) {
+    string src =
+        "                   \
+        fun sum(a) {     \
+            if (a > 0) {   \
+                sum(a - 1); \
+            } \
+            print a; \
+        }                   \
+        sum(3);     \
+    ";
+
+    Scanner scanner(src);
+    auto tokens = scanner.scanTokens();
+    Parser parser(tokens);
+    auto stmts = parser.parse();
+    auto r = Interpreter().interpret(stmts);
+    // EXPECT_EQ(any_cast<int>(r), 7);
+}

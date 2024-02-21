@@ -275,8 +275,8 @@ namespace cpplox {
         consume(RIGHT_PAREN, "Expect ')' after parameters.");
 
         consume(LEFT_BRACE, "Expect '{' before " + kind + " body.");
-        // vector<Stmt*> body = block();
-        auto body = new BlockStmt(block());
+        vector<Stmt*> body = block();
+        // auto body = new BlockStmt(block());
         return new FunctionStmt(name, params, body);
     }
 

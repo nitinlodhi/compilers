@@ -124,7 +124,8 @@ any AstPrinter::visitFunctionStmt(FunctionStmt* stmt) {
     json["FunctionDeclaration"]["name"] = stmt->name->lexeme;
     for (auto& param: stmt->params)
         json["FunctionDeclaration"]["params"].push_back(param->lexeme);
-    json["FunctionDeclaration"]["body"] = any_cast<nlohmann::ordered_json>(stmt->body->accept(this));
+    for (auto& stmt: stmt->body)
+        json["FunctionDeclaration"]["body"].push_back(any_cast<nlohmann::ordered_json>(stmt->accept(this)));
     return json;
 }
 

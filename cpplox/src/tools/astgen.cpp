@@ -189,7 +189,7 @@ int main(int argc, char *argv[]) {
     defineAST(path, "Stmt", {
       "Block      : vector<Stmt*> statements",
       "Expression : Expr* expression",
-      "Function   : Token* name, vector<Token*> params, BlockStmt* body",
+      "Function   : Token* name, vector<Token*> params, vector<Stmt*> body",
       "If         : Expr* condition, Stmt* thenBranch, Stmt* elseBranch",
       "While      : Expr* condition, Stmt* body",
       "Print      : Expr* expression",
