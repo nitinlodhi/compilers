@@ -30,3 +30,6 @@ target_link_libraries(cpplox
     PUBLIC parser
     PUBLIC interpreter
     lox)
+
+
+enable_testing()
