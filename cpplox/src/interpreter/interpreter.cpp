@@ -167,18 +167,19 @@ namespace cpplox {
         return expr->accept(this);
     }
 
-    void Interpreter::execute(Stmt* stmt) {
-        stmt->accept(this);
+    any Interpreter::execute(Stmt* stmt) {
+        return stmt->accept(this);
     }
 
-    void Interpreter::executeBlock(vector<Stmt*> stmts, Environment* enclosing) {
+    any Interpreter::executeBlock(vector<Stmt*> stmts, Environment* enclosing) {
+        any result = nullptr;
         Environment* previous = environment;
         environment = enclosing;
         for (auto stmt : stmts) {
-            execute(stmt);
+            result = execute(stmt);
         }
-
         environment = previous;
+        return result;
     }
 
     bool Interpreter::isTruthy(any val) {
@@ -242,11 +243,13 @@ namespace cpplox {
         }
     }
 
-    void Interpreter::interpret(vector<Stmt*> stmts) {
+    any Interpreter::interpret(vector<Stmt*> stmts) {
+        any result = nullptr;
         for (auto& stmt : stmts)
-            execute(stmt);
+            result = execute(stmt);
         for (auto _x : stmts)
             delete _x;
+        return result;
     }
 
 }

@@ -22,8 +22,10 @@ namespace cpplox {
             try {
                 interpreter->executeBlock(declaration->body->statements, newEnv);
             } catch (Return& result) {
+                // delete newEnv;
                 return result.value;
             }
+            // delete newEnv;
             return nullptr;
         }
 

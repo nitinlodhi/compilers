@@ -12,7 +12,7 @@ namespace cpplox {
         ~Interpreter();
 
         void interpret(Expr* expr);
-        void interpret(vector<Stmt*> stmts);
+        any interpret(vector<Stmt*> stmts);
 
         any visitLiteralExpr(LiteralExpr* expr) override;
         any visitBinaryExpr(BinaryExpr* expr) override;
@@ -30,11 +30,11 @@ namespace cpplox {
         any visitFunctionStmt(FunctionStmt* stmt) override;
         any visitReturnStmt(ReturnStmt* stmt) override;
 
-        void executeBlock(vector<Stmt*> stmts, Environment* enclosing);
+        any executeBlock(vector<Stmt*> stmts, Environment* enclosing);
 
     private:
         any evaluate(Expr* expr);
-        void execute(Stmt* stmt);
+        any execute(Stmt* stmt);
         bool isTruthy(any val);
         bool isEqual(any a, any b);
         string stringify(const any& value);

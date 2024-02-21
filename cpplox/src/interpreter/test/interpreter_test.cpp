@@ -20,3 +20,16 @@ protected:
     void TearDown() override {
     }
 };
+
+
+TEST_F(InterpreterTest, FunctionCallTest) {
+    string src = "fun sum(a, b) { return a + b; } print sum(2,5); ";
+    // string src = "var a = 10;";
+    Scanner scanner(src);
+    auto tokens = scanner.scanTokens();
+    Parser parser(tokens);
+    auto stmts = parser.parse();
+    Interpreter interpreter;
+    auto r = interpreter.interpret(stmts);
+    EXPECT_EQ(any_cast<int>(r), 7);
+}
