@@ -31,6 +31,7 @@ namespace cpplox {
         any visitReturnStmt(ReturnStmt* stmt) override;
 
         any executeBlock(vector<Stmt*> stmts, Environment* enclosing);
+        Environment* getEnv() { return environment; };
 
     private:
         any evaluate(Expr* expr);

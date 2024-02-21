@@ -12,16 +12,18 @@ namespace cpplox {
     public:
         Environment() {
             enclosing = nullptr;
+            std::cout << this << " : " << __func__ << std::endl;
         }
 
         Environment(Environment* _env) {
             enclosing = _env;
+            std::cout << this << " : " << __func__ <<  " enclosing: " << _env << std::endl;
         }
 
         ~Environment();
 
         void define(string name, any value) {
-            // std::cout << "Store => " << name << " : " << any_cast<int>(value) << std::endl;
+            std::cout << this << " : Store => " << name  << std::endl;
             values.insert({name, value});
         }
 

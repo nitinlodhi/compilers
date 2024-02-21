@@ -16,19 +16,16 @@ namespace cpplox {
 
         any call(Interpreter* interpreter, vector<any>& arguments) {
             Return result(nullptr);
-            Environment* newEnv = new Environment();
+            Environment* env = new Environment(interpreter->getEnv());
 
             for (int i = 0; i < declaration->params.size(); i++) {
-                newEnv->define(declaration->params[i]->lexeme, arguments[i]);
+                env->define(declaration->params[i]->lexeme, arguments[i]);
             }
             try {
-                interpreter->executeBlock(declaration->body->statements, newEnv);
+                interpreter->executeBlock(declaration->body->statements, env);
             } catch (Return& r) {
-                // delete newEnv;
                 result = r;
-                // return result.value;
             }
-            // delete newEnv;
             return result.value;
         }
 

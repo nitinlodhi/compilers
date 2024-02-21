@@ -107,7 +107,7 @@ TEST_F(InterpreterTest, WhileTest) {
         "               \
         var a = 1;      \
         var i = 0;      \
-        while (i < 5) { \
+        while (i < 3) { \
             i = i+1;    \
             a = a * 2;  \
         }               \
@@ -118,7 +118,7 @@ TEST_F(InterpreterTest, WhileTest) {
     auto stmts = parser.parse();
     Interpreter interpreter;
     auto r = interpreter.interpret(stmts);
-    EXPECT_EQ(any_cast<int>(r), 32);
+    EXPECT_EQ(any_cast<int>(r), 8);
 }
 
 TEST_F(InterpreterTest, FunctionTest) {
@@ -127,14 +127,28 @@ TEST_F(InterpreterTest, FunctionTest) {
         fun sum(a, b) {     \
             return a + b;   \
         }                   \
-        print sum(2,5);     \
     ";
 
     Scanner scanner(src);
     auto tokens = scanner.scanTokens();
     Parser parser(tokens);
     auto stmts = parser.parse();
-    Interpreter interpreter;
-    auto r = interpreter.interpret(stmts);
+    auto r = Interpreter().interpret(stmts);
+}
+
+TEST_F(InterpreterTest, FunctionCallTest) {
+    string src =
+        "                   \
+        fun sum(a, b) {     \
+            return a + b;   \
+        }                   \
+        sum(2,5);     \
+    ";
+
+    Scanner scanner(src);
+    auto tokens = scanner.scanTokens();
+    Parser parser(tokens);
+    auto stmts = parser.parse();
+    auto r = Interpreter().interpret(stmts);
     EXPECT_EQ(any_cast<int>(r), 7);
 }

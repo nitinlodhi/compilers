@@ -172,7 +172,7 @@ namespace cpplox {
     }
 
     any Interpreter::executeBlock(vector<Stmt*> stmts, Environment* enclosing) {
-        any val = false;
+        any val = nullptr;
         Environment* previous = environment;
         environment = enclosing;
         for (auto stmt : stmts) {
