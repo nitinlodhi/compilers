@@ -1,7 +1,7 @@
 #pragma once
 
-#include "lox_callable.hpp"
 #include <return.hpp>
+#include "lox_callable.hpp"
 
 namespace cpplox {
     class LoxFunction : public LoxCallable {
@@ -15,18 +15,21 @@ namespace cpplox {
         }
 
         any call(Interpreter* interpreter, vector<any>& arguments) {
+            Return result(nullptr);
             Environment* newEnv = new Environment();
+
             for (int i = 0; i < declaration->params.size(); i++) {
                 newEnv->define(declaration->params[i]->lexeme, arguments[i]);
             }
             try {
                 interpreter->executeBlock(declaration->body->statements, newEnv);
-            } catch (Return& result) {
+            } catch (Return& r) {
                 // delete newEnv;
-                return result.value;
+                result = r;
+                // return result.value;
             }
             // delete newEnv;
-            return nullptr;
+            return result.value;
         }
 
         FunctionStmt* declaration;

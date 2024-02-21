@@ -1,4 +1,4 @@
-add_library(interpreter interpreter.cpp)
+add_library(interpreter interpreter.cpp environment.cpp)
 
 target_include_directories(
     interpreter PUBLIC

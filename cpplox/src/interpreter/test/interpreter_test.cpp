@@ -21,10 +21,115 @@ protected:
     }
 };
 
+TEST_F(InterpreterTest, VarDeclTest) {
+    // string src = "{var a = 2; if (a < 3) 3; else 2;}";
+    string src = "var a = 10;";
+    Scanner scanner(src);
+    auto tokens = scanner.scanTokens();
+    Parser parser(tokens);
+    auto stmts = parser.parse();
+    Interpreter interpreter;
+    auto r = interpreter.interpret(stmts);
+    EXPECT_EQ(any_cast<int>(r), 10);
+}
 
-TEST_F(InterpreterTest, FunctionCallTest) {
-    string src = "fun sum(a, b) { return a + b; } print sum(2,5); ";
-    // string src = "var a = 10;";
+TEST_F(InterpreterTest, ExprTest) {
+    string src = "3*8;";
+    Scanner scanner(src);
+    auto tokens = scanner.scanTokens();
+    Parser parser(tokens);
+    auto stmts = parser.parse();
+    Interpreter interpreter;
+    auto r = interpreter.interpret(stmts);
+    EXPECT_EQ(any_cast<int>(r), 24);
+}
+
+TEST_F(InterpreterTest, ComparisionTest) {
+    string src = "2==3;";
+    Scanner scanner(src);
+    auto tokens = scanner.scanTokens();
+    Parser parser(tokens);
+    auto stmts = parser.parse();
+    Interpreter interpreter;
+    auto r = interpreter.interpret(stmts);
+    EXPECT_EQ(any_cast<bool>(r), false);
+}
+
+TEST_F(InterpreterTest, IfTest) {
+    string src =
+        "               \
+        var a = 1;      \
+        if (a < 2)      \
+            a = 10;     \
+        a;              \
+    ";
+    Scanner scanner(src);
+    auto tokens = scanner.scanTokens();
+    Parser parser(tokens);
+    auto stmts = parser.parse();
+    Interpreter interpreter;
+    auto r = interpreter.interpret(stmts);
+    EXPECT_EQ(any_cast<int>(r), 10);
+}
+
+TEST_F(InterpreterTest, BlockTest) {
+    string src = "{ 10; }";
+    Scanner scanner(src);
+    auto tokens = scanner.scanTokens();
+    Parser parser(tokens);
+    auto stmts = parser.parse();
+    Interpreter interpreter;
+    auto r = interpreter.interpret(stmts);
+    EXPECT_EQ(any_cast<int>(r), 10);
+}
+
+TEST_F(InterpreterTest, IfElseTest) {
+    string src =
+        "                   \
+        var a = 11;         \
+        if (a < 2) {        \
+            a = 10;         \
+        } else {            \
+            a = 20;         \
+        }                   \
+    ";
+    Scanner scanner(src);
+    auto tokens = scanner.scanTokens();
+    Parser parser(tokens);
+    auto stmts = parser.parse();
+    Interpreter interpreter;
+    auto r = interpreter.interpret(stmts);
+    EXPECT_EQ(any_cast<int>(r), 20);
+}
+
+TEST_F(InterpreterTest, WhileTest) {
+    string src =
+        "               \
+        var a = 1;      \
+        var i = 0;      \
+        while (i < 5) { \
+            i = i+1;    \
+            a = a * 2;  \
+        }               \
+    ";
+    Scanner scanner(src);
+    auto tokens = scanner.scanTokens();
+    Parser parser(tokens);
+    auto stmts = parser.parse();
+    Interpreter interpreter;
+    auto r = interpreter.interpret(stmts);
+    EXPECT_EQ(any_cast<int>(r), 32);
+}
+
+TEST_F(InterpreterTest, FunctionTest) {
+    string src =
+        "                   \
+        fun sum(a, b) {     \
+            return a + b;   \
+        }                   \
+        print sum(2,5);     \
+    ";
+
     Scanner scanner(src);
     auto tokens = scanner.scanTokens();
     Parser parser(tokens);

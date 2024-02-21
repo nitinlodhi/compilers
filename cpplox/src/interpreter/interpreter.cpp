@@ -2,6 +2,8 @@
 #include <lox_function.hpp>
 #include <return.hpp>
 
+#include <cassert>
+
 namespace cpplox {
 
     Interpreter::Interpreter() {
@@ -131,30 +133,28 @@ namespace cpplox {
     any Interpreter::visitAssignExpr(AssignExpr* expr) {
         auto value = evaluate(expr->value);
         environment->assign(expr->name, value);
-        return nullptr;
+        return value;
     }
 
     any Interpreter::visitBlockStmt(BlockStmt* stmt) {
-        auto env = new Environment(environment);
-        executeBlock(stmt->statements, env);
-        delete env;
-        return nullptr;
+        return executeBlock(stmt->statements, new Environment(environment));
     }
 
     any Interpreter::visitIfStmt(IfStmt* stmt) {
         if (isTruthy(evaluate(stmt->condition))) {
-            execute(stmt->thenBranch);
+            return execute(stmt->thenBranch);
         } else if (stmt->elseBranch != nullptr) {
-            execute(stmt->elseBranch);
+            return execute(stmt->elseBranch);
         }
         return nullptr;
     }
 
     any Interpreter::visitWhileStmt(WhileStmt* stmt) {
+        any res = nullptr;
         while (isTruthy(evaluate(stmt->condition))) {
-            execute(stmt->body);
+            res = execute(stmt->body);
         }
-        return nullptr;
+        return res;
     }
 
     any Interpreter::visitFunctionStmt(FunctionStmt* stmt) {
@@ -172,14 +172,15 @@ namespace cpplox {
     }
 
     any Interpreter::executeBlock(vector<Stmt*> stmts, Environment* enclosing) {
-        any result = nullptr;
+        any val = false;
         Environment* previous = environment;
         environment = enclosing;
         for (auto stmt : stmts) {
-            result = execute(stmt);
+            val = execute(stmt);
         }
         environment = previous;
-        return result;
+        delete enclosing;
+        return val;
     }
 
     bool Interpreter::isTruthy(any val) {

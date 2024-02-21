@@ -18,10 +18,7 @@ namespace cpplox {
             enclosing = _env;
         }
 
-        ~Environment() {
-            if (enclosing)
-                delete enclosing;
-        }
+        ~Environment();
 
         void define(string name, any value) {
             // std::cout << "Store => " << name << " : " << any_cast<int>(value) << std::endl;
