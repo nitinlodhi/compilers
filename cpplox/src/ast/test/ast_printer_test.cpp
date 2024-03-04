@@ -162,7 +162,7 @@ TEST_F(AstPrinterTest, FunctionStmtTest) {
 }
 
 TEST_F(AstPrinterTest, RecursionTest) {
-    string src = "fun sum(a, b) { return a + sum(a, b - 1); }";
+    string src = "{fun sum(a, b) { return a + sum(a, b - 1); } sum(3+4, 4-6);}";
     // string src = "sum(3,8);";
     Scanner scanner(src);
     auto tokens = scanner.scanTokens();

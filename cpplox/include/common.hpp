@@ -6,7 +6,9 @@
 #include <vector>
 #include <sstream>
 #include <any>
+#include <memory>
 
+using std::unique_ptr;
 using std::map;
 using std::string;
 using std::vector;

@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 
-#include <scanner.hpp>
 #include <parser.hpp>
+#include <scanner.hpp>
 
 using namespace cpplox;
 
@@ -21,7 +21,9 @@ TEST_F(ParserTest, BinaryExpressions) {
     std::string emptyStr;
     Scanner scanner("var a = 2+3;");
     vector<Token> tokens = scanner.scanTokens();
-    
+
     Parser parser(tokens);
     auto stmts = parser.parse();
+    for (auto _x : stmts)
+        delete _x;
 }

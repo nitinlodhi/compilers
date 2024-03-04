@@ -30,7 +30,7 @@ namespace cpplox {
         any visitFunctionStmt(FunctionStmt* stmt) override;
         any visitReturnStmt(ReturnStmt* stmt) override;
 
-        any executeBlock(vector<Stmt*> stmts, Environment* enclosing);
+        any executeBlock(vector<Stmt*> stmts, unique_ptr<Environment> enclosing);
         Environment* environment;
 
     private:

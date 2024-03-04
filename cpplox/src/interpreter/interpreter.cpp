@@ -1,6 +1,7 @@
 #include "interpreter.hpp"
 #include <lox_function.hpp>
 #include <return.hpp>
+#include <run_time_error.hpp>
 
 #include <cassert>
 
@@ -90,11 +91,12 @@ namespace cpplox {
             args.push_back(evaluate(e));
 
         // LoxFunction* fn = any_cast<LoxFunction*>(callee);
-        // if (arguments.size() != function.arity()) {
-        //     throw new RuntimeError(expr.paren, "Expected " +
-        //                                            function.arity() + " arguments but got " +
-        //                                            arguments.size() + ".");
-        // }
+        if (expr->arguments.size() != fn->arity()) {
+            throw new RuntimeError(
+                expr->paren,
+                "Expected " + std::to_string(fn->arity()) + " arguments but got " +
+                    std::to_string(args.size()) + ".");
+        }
         return fn->call(this, args);
     }
 
@@ -137,7 +139,11 @@ namespace cpplox {
     }
 
     any Interpreter::visitBlockStmt(BlockStmt* stmt) {
-        return executeBlock(stmt->statements, new Environment(environment));
+        auto temp = environment;
+        unique_ptr<Environment> env{new Environment(temp)};
+        auto value = executeBlock(stmt->statements, std::move(env));
+        environment = temp;
+        return value;
     }
 
     any Interpreter::visitIfStmt(IfStmt* stmt) {
@@ -171,15 +177,14 @@ namespace cpplox {
         return stmt->accept(this);
     }
 
-    any Interpreter::executeBlock(vector<Stmt*> stmts, Environment* enclosing) {
+    any Interpreter::executeBlock(vector<Stmt*> stmts, unique_ptr<Environment> enclosing) {
         any val = nullptr;
         Environment* prev = environment;
-        environment = enclosing;
+        environment = enclosing.get();
         for (auto stmt : stmts) {
             val = execute(stmt);
         }
         environment = prev;
-        delete enclosing;
         return val;
     }
 
