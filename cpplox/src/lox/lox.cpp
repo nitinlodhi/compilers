@@ -51,23 +51,11 @@ namespace cpplox {
     }
 #endif
         Parser parser(tokens);
-
-        // auto expr = parser.parse();
         auto stmts = parser.parse();
 
         if (hadError)
             exit(65);
-        Interpreter().interpret(stmts);
-        // if (expr != nullptr) {
-        //     std::cout << AstPrinter().print(expr) << std::endl;
-        // } else {
-        //     std::cout << "Parsing Failed" << std::endl;
-        // }
-
-        // Interpreter().interpret(expr);
-        // }
-
-        // LOG_FUNCTION_EXIT();
+        Interpreter(stmts).interpret();
     }
 
     void Lox::error(int line, string message) {

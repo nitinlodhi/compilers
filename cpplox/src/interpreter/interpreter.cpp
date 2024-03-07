@@ -7,12 +7,16 @@
 
 namespace cpplox {
 
-    Interpreter::Interpreter() {
+    Interpreter::Interpreter(vector<Stmt*>& _stmts) {
         environment = new Environment();
+        stmts = _stmts;
     }
 
     Interpreter::~Interpreter() {
         delete environment;
+        for (auto _x : stmts) {
+            delete _x;
+        }
     }
 
     any Interpreter::visitLiteralExpr(LiteralExpr* expr) {
@@ -104,6 +108,11 @@ namespace cpplox {
         any value;
         if (stmt->value != nullptr) {
             value = evaluate(stmt->value);
+            if (value.type() == typeid(LoxFunction*)) {
+                FunctionStmt* stmt = (any_cast<LoxFunction*>(value))->declaration;
+                LoxFunction* f = new LoxFunction(stmt, &(any_cast<LoxFunction*>(value))->closure);
+                value = f;
+            }
             throw Return(value);
         }
         return nullptr;
@@ -164,7 +173,7 @@ namespace cpplox {
     }
 
     any Interpreter::visitFunctionStmt(FunctionStmt* stmt) {
-        LoxFunction* loxFunc = new LoxFunction(stmt);
+        LoxFunction* loxFunc = new LoxFunction(stmt, environment);
         environment->define(stmt->name->lexeme, loxFunc);
         return nullptr;
     }
@@ -249,12 +258,17 @@ namespace cpplox {
         }
     }
 
-    any Interpreter::interpret(vector<Stmt*> stmts) {
+    any Interpreter::interpret() {
         any result = nullptr;
         for (auto& stmt : stmts)
-            result = execute(stmt);
-        for (auto _x : stmts)
-            delete _x;
+        {
+            try {
+                result = execute(stmt);
+            } catch (RuntimeError& err) {
+                std::cout << "Lox => " << err.what() << std::endl;
+                std::terminate();
+            }
+        }
         return result;
     }
 

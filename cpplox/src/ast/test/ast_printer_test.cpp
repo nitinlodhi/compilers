@@ -183,3 +183,25 @@ TEST_F(AstPrinterTest, CallExprTest) {
 
     // AstPrinter().print(Parser(scanner.scanTokens()).parse());
 }
+
+TEST_F(AstPrinterTest, ClosureTest) {
+    string src =
+        "{                              \
+            fun makeCounter() {         \
+                var i = 0;              \
+                fun count() {           \
+                    i = i + 1;          \
+                    print i;            \
+                }                       \
+                return count;           \
+            }                           \
+         }                              \
+        var counter = makeCounter();";
+
+    Scanner scanner(src);
+    auto& tokens = scanner.scanTokens();
+    Parser parser(tokens);
+    stmts = parser.parse();
+    AstPrinter printer;
+    printer.print(stmts);
+}

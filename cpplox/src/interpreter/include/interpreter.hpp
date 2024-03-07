@@ -8,11 +8,11 @@ namespace cpplox {
 
     class Interpreter : public Expr::Visitor, public Stmt::Visitor {
     public:
-        Interpreter();
+        Interpreter(vector<Stmt*> &_stmts);
         ~Interpreter();
 
         void interpret(Expr* expr);
-        any interpret(vector<Stmt*> stmts);
+        any interpret();
 
         any visitLiteralExpr(LiteralExpr* expr) override;
         any visitBinaryExpr(BinaryExpr* expr) override;
@@ -39,6 +39,7 @@ namespace cpplox {
         bool isTruthy(any val);
         bool isEqual(any a, any b);
         string stringify(const any& value);
+        vector<Stmt*> stmts;
         
     };
 

@@ -28,8 +28,8 @@ TEST_F(InterpreterTest, VarDeclTest) {
     auto tokens = scanner.scanTokens();
     Parser parser(tokens);
     auto stmts = parser.parse();
-    Interpreter interpreter;
-    auto r = interpreter.interpret(stmts);
+    Interpreter interpreter(stmts);
+    auto r = interpreter.interpret();
     EXPECT_EQ(any_cast<int>(r), 10);
 }
 
@@ -39,8 +39,8 @@ TEST_F(InterpreterTest, ExprTest) {
     auto tokens = scanner.scanTokens();
     Parser parser(tokens);
     auto stmts = parser.parse();
-    Interpreter interpreter;
-    auto r = interpreter.interpret(stmts);
+    Interpreter interpreter(stmts);
+    auto r = interpreter.interpret();
     EXPECT_EQ(any_cast<int>(r), 24);
 }
 
@@ -50,8 +50,8 @@ TEST_F(InterpreterTest, ComparisionTest) {
     auto tokens = scanner.scanTokens();
     Parser parser(tokens);
     auto stmts = parser.parse();
-    Interpreter interpreter;
-    auto r = interpreter.interpret(stmts);
+    Interpreter interpreter(stmts);
+    auto r = interpreter.interpret();
     EXPECT_EQ(any_cast<bool>(r), false);
 }
 
@@ -67,8 +67,8 @@ TEST_F(InterpreterTest, IfTest) {
     auto tokens = scanner.scanTokens();
     Parser parser(tokens);
     auto stmts = parser.parse();
-    Interpreter interpreter;
-    auto r = interpreter.interpret(stmts);
+    Interpreter interpreter(stmts);
+    auto r = interpreter.interpret();
     EXPECT_EQ(any_cast<int>(r), 10);
 }
 
@@ -78,8 +78,8 @@ TEST_F(InterpreterTest, BlockTest) {
     auto tokens = scanner.scanTokens();
     Parser parser(tokens);
     auto stmts = parser.parse();
-    Interpreter interpreter;
-    auto r = interpreter.interpret(stmts);
+    Interpreter interpreter(stmts);
+    auto r = interpreter.interpret();
     EXPECT_EQ(any_cast<int>(r), 10);
 }
 
@@ -97,8 +97,8 @@ TEST_F(InterpreterTest, IfElseTest) {
     auto tokens = scanner.scanTokens();
     Parser parser(tokens);
     auto stmts = parser.parse();
-    Interpreter interpreter;
-    auto r = interpreter.interpret(stmts);
+    Interpreter interpreter(stmts);
+    auto r = interpreter.interpret();
     EXPECT_EQ(any_cast<int>(r), 20);
 }
 
@@ -116,8 +116,8 @@ TEST_F(InterpreterTest, WhileTest) {
     auto tokens = scanner.scanTokens();
     Parser parser(tokens);
     auto stmts = parser.parse();
-    Interpreter interpreter;
-    auto r = interpreter.interpret(stmts);
+    Interpreter interpreter(stmts);
+    auto r = interpreter.interpret();
     EXPECT_EQ(any_cast<int>(r), 8);
 }
 
@@ -133,7 +133,7 @@ TEST_F(InterpreterTest, FunctionTest) {
     auto tokens = scanner.scanTokens();
     Parser parser(tokens);
     auto stmts = parser.parse();
-    auto r = Interpreter().interpret(stmts);
+    auto r = Interpreter(stmts).interpret();
 }
 
 TEST_F(InterpreterTest, FunctionCallTest) {
@@ -149,7 +149,7 @@ TEST_F(InterpreterTest, FunctionCallTest) {
     auto tokens = scanner.scanTokens();
     Parser parser(tokens);
     auto stmts = parser.parse();
-    auto r = Interpreter().interpret(stmts);
+    auto r = Interpreter(stmts).interpret();
     EXPECT_EQ(any_cast<int>(r), 7);
 }
 
@@ -169,6 +169,6 @@ TEST_F(InterpreterTest, RecursiveCallTest) {
     auto tokens = scanner.scanTokens();
     Parser parser(tokens);
     auto stmts = parser.parse();
-    auto r = Interpreter().interpret(stmts);
+    auto r = Interpreter(stmts).interpret();
     // EXPECT_EQ(any_cast<int>(r), 7);
 }

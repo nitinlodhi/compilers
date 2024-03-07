@@ -3,6 +3,7 @@
 #include <unordered_map>
 
 #include <token.hpp>
+#include <run_time_error.hpp>
 
 using std::unordered_map;
 
@@ -34,8 +35,8 @@ namespace cpplox {
             if (enclosing) {
                 return enclosing->get(name);
             }
-            throw "Undefined variable.";
-            // throw new RuntimeError(name, "Undefined variable '" + name->lexeme + "'.");
+            // throw "Undefined variable.";
+            throw RuntimeError(name, "Undefined variable '" + name->lexeme + "'.");
         }
 
         void assign(Token* name, any value) {

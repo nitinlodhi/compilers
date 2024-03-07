@@ -75,6 +75,7 @@ public:
 	}
 
 	~FunctionStmt() {
+		// std::cout << __func__ << " => " << name->lexeme << std::endl;
 		for (auto _x : body) {
 			 delete _x;
 		}
