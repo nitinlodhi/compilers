@@ -5,7 +5,7 @@
 #include "chunk.h"
 
 #define MAX_STACK 256
-
+// Test commit
 typedef struct {
     Chunk* chunk;
     uint8_t* ip;
@@ -21,7 +21,7 @@ typedef enum {
 
 void initVM();
 void freeVM();
-InterpretResult interpret(Chunk* chunk);
+InterpretResult interpret(const char* source);
 
 void push(Value val);
 Value pop();

@@ -9,13 +9,15 @@ typedef enum {
     VAL_NUMBER
 } ValueType;
 
-typedef struct {
-    ValueType type;
-    union {
-        bool boolean;
-        double number;
-    } as;
-} Value;
+// typedef struct {
+//     ValueType type;
+//     union {
+//         bool boolean;
+//         double number;
+//     } as;
+// } Value;
+
+typedef double Value;
 
 #define BOOL_VAL(value) ((Value){VAL_BOOL, {.boolean = value}})
 #define NIL_VAL(value) ((Value){VAL_NIL, {.number = 0}})
