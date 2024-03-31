@@ -5,5 +5,5 @@
 
 int disassembleInstruction(Chunk* chunk, int offset);
 void disassembleChunk(Chunk* chunk, const char* name);
-
+void displayChunk(Chunk* chunk, const char* name);
 #endif

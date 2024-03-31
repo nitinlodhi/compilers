@@ -30,7 +30,7 @@ static InterpretResult run() {
 
     for (;;) {
 #ifdef DEBUG_TRACE_EXECUTION
-        printf("          ");
+        printf("Stack: ");
         for (Value* slot = vm.stack; slot < vm.stackTop; slot++) {
             printf("[ ");
             printValue(*slot);
@@ -75,17 +75,38 @@ static InterpretResult run() {
 
 #undef READ_BYTE
 #undef READ_CONSTANT
+#undef BINARY_OP
 }
 
 InterpretResult interpret(const char* source) {
     Chunk chunk;
     initChunk(&chunk);
 
+#if 1
     if (!compile(source, &chunk)) {
         freeChunk(&chunk);
         return INTERPRET_COMPILE_ERROR;
     }
-    
+#endif
+#if 0
+    uint8_t constant = addConstant(&chunk, 1.2);
+    writeChunk(&chunk, OP_CONSTANT, 123);
+    writeChunk(&chunk, constant, 123);
+    writeChunk(&chunk, OP_NEGATE, 123);
+
+    constant = addConstant(&chunk, 3);
+    writeChunk(&chunk, OP_CONSTANT, 123);
+    writeChunk(&chunk, constant, 123);
+    writeChunk(&chunk, OP_ADD, 123);
+
+    constant = addConstant(&chunk, 5);
+    writeChunk(&chunk, OP_CONSTANT, 123);
+    writeChunk(&chunk, constant, 123);
+    writeChunk(&chunk, OP_MULTIPLY, 123);
+
+    writeChunk(&chunk, OP_RETURN, 123);
+    displayChunk(&chunk, "BYTE-CODE");
+ #endif
     vm.chunk = &chunk;
     vm.ip = vm.chunk->code;
 

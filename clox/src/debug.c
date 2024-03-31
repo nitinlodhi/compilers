@@ -54,3 +54,13 @@ int disassembleInstruction(Chunk* chunk, int offset) {
         return offset + 1;
     }
 }
+
+
+void displayChunk(Chunk* chunk, const char* name) {
+    printf("== %s ==\n", name);
+
+    for (int offset = 0; offset < chunk->count; offset++) {
+        printf("%04d  %02x\n", offset, chunk->code[offset]);
+    }
+    printf("==============\n");
+}

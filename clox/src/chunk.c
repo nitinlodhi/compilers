@@ -1,10 +1,12 @@
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "chunk.h"
 #include "memory.h"
 
 void initChunk(Chunk* chunk) {
     chunk->code = NULL;
+    chunk->lines = NULL;
     chunk->capacity = 0;
     chunk->count = 0;
     initValueArray(&chunk->constants);

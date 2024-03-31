@@ -92,7 +92,7 @@ bool compile(const char* source, Chunk* chunk) {
 
     parser.hadError = false;
     parser.panicMode = false;
-#if 0
+#if 1
     int line = -1;
     for(;;) {
         Token token = scanToken();
@@ -107,9 +107,11 @@ bool compile(const char* source, Chunk* chunk) {
 
     }
 #endif
+#if 0
     advance();
     expression();
     consume(TOKEN_EOF, "Expect end of expression.");
     endCompiler();
+#endif
     return !parser.hadError;
 }
