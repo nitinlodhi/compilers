@@ -5,6 +5,8 @@
 #include "vm.h"
 #include "compiler.h"
 
+//test comment
+
 VM vm;
 
 static void resetStack() {
