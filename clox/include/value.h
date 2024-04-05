@@ -9,19 +9,19 @@ typedef enum {
     VAL_NUMBER
 } ValueType;
 
-// typedef struct {
-//     ValueType type;
-//     union {
-//         bool boolean;
-//         double number;
-//     } as;
-// } Value;
+typedef struct {
+    ValueType type;
+    union {
+        bool boolean;
+        double number;
+    } as;
+} Value;
 
-typedef double Value;
+// typedef double Value;
 
 #define BOOL_VAL(value) ((Value){VAL_BOOL, {.boolean = value}})
-#define NIL_VAL(value) ((Value){VAL_NIL, {.number = 0}})
 #define NUMBER_VAL(value) ((Value){VAL_NUMBER, {.number = value}})
+#define NIL_VAL ((Value){VAL_NIL, {.number = 0}})
 
 #define AS_BOOL(value) ((value).as.boolean)
 #define AS_NUMBER(value) ((value).as.number)
@@ -40,5 +40,6 @@ void initValueArray(ValueArray* array);
 void writeValueArray(ValueArray* array, Value value);
 void freeValueArray(ValueArray* array);
 void printValue(Value value);
+bool valuesEqual(Value a, Value b);
 
 #endif
