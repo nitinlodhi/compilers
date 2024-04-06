@@ -7,7 +7,7 @@
 #include "compiler.h"
 #include "value.h"
 
-//test comment
+// test comment
 
 VM vm;
 
