@@ -4,6 +4,7 @@
 #include "common.h"
 #include "compiler.h"
 #include "scanner.h"
+#include "object.h"
 
 #ifdef DEBUG_PRINT_CODE
 #include "debug.h"
@@ -49,6 +50,7 @@ static void parsePrecedence(Precedence precedence);
 static void grouping();
 static void binary();
 static void number();
+static void string();
 static void unary();
 
 static void errorAt(Token* token, const char* message) {
@@ -116,7 +118,7 @@ static void endCompiler() {
     if (!parser.hadError) {
         disassembleChunk(currentChunk(), "code");
     }
-#endif    
+#endif
 }
 
 static void expression() {
@@ -207,7 +209,7 @@ static void number() {
 }
 
 static void string() {
-    
+    emitConstant(OBJ_VAL(copyString(parser.previous.start + 1, parser.previous.length - 2)));
 }
 
 static void grouping() {

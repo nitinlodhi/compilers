@@ -11,6 +11,7 @@ typedef struct {
     uint8_t* ip;
     Value stack[MAX_STACK];
     Value* stackTop;
+    Obj* objects;
 } VM;
 
 typedef enum {
@@ -25,5 +26,7 @@ InterpretResult interpret(const char* source);
 
 void push(Value val);
 Value pop();
+
+extern VM vm;
 
 #endif
