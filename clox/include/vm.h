@@ -3,6 +3,7 @@
 
 #include "value.h"
 #include "chunk.h"
+#include "table.h"
 
 #define MAX_STACK 256
 // Test commit
@@ -11,6 +12,7 @@ typedef struct {
     uint8_t* ip;
     Value stack[MAX_STACK];
     Value* stackTop;
+    Table strings;
     Obj* objects;
 } VM;
 
