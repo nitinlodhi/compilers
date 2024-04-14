@@ -269,6 +269,65 @@ static void binary() {
     }
 }
 
+static bool check(TokenType type) {
+    return (parser.current.type == type);
+}
+
+static bool match(TokenType type) {
+    if (!check(type)) return false;
+    advance();
+    return true;
+}
+
+static void printStatement() {
+    expression();
+    consume(TOKEN_SEMICOLON, "Expect ';' after value.");
+    emitByte(OP_PRINT);
+}
+
+static void expressionStatement() {
+    expression();
+    consume(TOKEN_SEMICOLON, "Expect ';' after value.");
+    emitByte(OP_POP);
+}
+
+static void statement() {
+    if (match(TOKEN_PRINT)) {
+        printStatement();
+    } else {
+        expressionStatement();
+    }
+}
+
+static void synchronize() {
+    parser.panicMode = false;
+
+    while (parser.current.type != TOKEN_EOF) {
+        if (parser.previous.type == TOKEN_SEMICOLON) return;
+        switch (parser.current.type) {
+            case TOKEN_CLASS:
+            case TOKEN_FUN:
+            case TOKEN_VAR:
+            case TOKEN_FOR:
+            case TOKEN_IF:
+            case TOKEN_WHILE:
+            case TOKEN_PRINT:
+            case TOKEN_RETURN:
+                return;
+            default:
+                ; // Do nothing
+        }
+
+        advance();
+    }
+}
+
+static void declaration() {
+    statement();
+
+    if (parser.panicMode) synchronize();
+}
+
 bool compile(const char* source, Chunk* chunk) {
     initScanner(source);
     compilingChunk = chunk;
@@ -292,8 +351,11 @@ bool compile(const char* source, Chunk* chunk) {
 #endif
 #if 1
     advance();
-    expression();
-    consume(TOKEN_EOF, "Expect end of expression.");
+    
+    while (!match(TOKEN_EOF)) {
+        declaration();
+    }
+
     endCompiler();
 #endif
     return !parser.hadError;
