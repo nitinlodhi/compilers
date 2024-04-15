@@ -4,6 +4,7 @@
 #include "chunk.h"
 #include "memory.h"
 
+// Test commit 
 void initChunk(Chunk* chunk) {
     chunk->code = NULL;
     chunk->lines = NULL;
