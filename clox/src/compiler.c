@@ -236,12 +236,12 @@ static uint8_t identifierConstant(Token* name) {
 }
 
 static void namedVariable(Token name) {
-  uint8_t arg = identifierConstant(&name);
-  emitBytes(OP_GET_GLOBAL, arg);
+    uint8_t arg = identifierConstant(&name);
+    emitBytes(OP_GET_GLOBAL, arg);
 }
 
 static void variable() {
-  namedVariable(parser.previous);
+    namedVariable(parser.previous);
 }
 
 static uint8_t parseVariable(const char* errorMessage) {
